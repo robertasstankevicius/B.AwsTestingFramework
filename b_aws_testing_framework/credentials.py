@@ -23,7 +23,9 @@ class Credentials:
         self.aws_session_token = aws_session_token
         self.profile_name = profile_name
         self.region_name = region_name
-        self.aws_account_id = self.boto_session.client("sts").get_caller_identity()["Account"]
+        sts = self.boto_session.client("sts")
+        self.aws_account_id = sts.get_caller_identity()["Account"]
+        sts.close()
 
     @property
     def boto_session(self) -> Session:
